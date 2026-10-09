@@ -4,6 +4,9 @@ import time
 
 characters = []
 inventory = []
+savefile = {
+
+}
 
 def newCharacter(NAME):
     if NAME in characters:
@@ -37,3 +40,7 @@ def talk(character, dialogue, delay):
 
 def addToInventory(item):
     inventory.append(item)
+
+def addToSave(statName, statValue):
+    savefile[{statName}] = statValue
+    print(str(savefile))
