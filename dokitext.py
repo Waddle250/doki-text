@@ -42,5 +42,5 @@ def addToInventory(item):
     inventory.append(item)
 
 def addToSave(statName, statValue):
-    savefile[{statName}] = statValue
+    savefile[statName] = statValue
     print(str(savefile))
