@@ -59,4 +59,4 @@ def load(slot):
     saveFile = open(f"save{slot}", "r")
     data = saveFile.read()
     savefile = ast.literal_eval(data)
-    
+
