@@ -1,6 +1,7 @@
 #!bin/python
 
 import time
+import ast
 
 characters = []
 inventory = []
@@ -38,13 +39,24 @@ def talk(character, dialogue, delay):
 
     input()
 
-def addToInventory(item):
+def addToInventory(item : str):
     inventory.append(item)
 
-def saveState(statName, statValue):
+def saveValue(statName : str, statValue):
     savefile[statName] = statValue
     print(str(savefile))
 
-def readState(statName):
+def readValue(statName : str):
     statValue = savefile[statName]
     return statValue
+
+def save(slot : int):
+    saveFile = open(f"save{slot}", "wt")
+    data = str(savefile)
+    savefile.write(data)
+
+def load(slot):
+    saveFile = open(f"save{slot}", "r")
+    data = saveFile.read()
+    savefile = ast.literal_eval(data)
+    
