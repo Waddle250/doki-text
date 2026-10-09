@@ -41,6 +41,10 @@ def talk(character, dialogue, delay):
 def addToInventory(item):
     inventory.append(item)
 
-def addToSave(statName, statValue):
+def saveState(statName, statValue):
     savefile[statName] = statValue
     print(str(savefile))
+
+def readState(statName):
+    statValue = savefile[statName]
+    return statValue
