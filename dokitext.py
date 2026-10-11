@@ -1,7 +1,7 @@
 #!bin/python
 
 import time
-import ast
+import json
 
 characters = []
 inventory = []
@@ -21,7 +21,7 @@ def throwError(errorDescription, fatal):
     else:
         print("[ERROR] " + errorDescription)
 
-def talk(character, dialogue, delay):
+def talk(character, dialogue, delay = 0.05):
     if character not in characters:
         throwError("Character not found: " + str(character), True)
 
@@ -39,24 +39,44 @@ def talk(character, dialogue, delay):
 
     input()
 
+def choose(prompt : str, options : list) -> int:
+    print(f"[CHOICE]:  {prompt}")
+
+    for index, option in enumerate(options, 1):
+        print(f"{index}: {option}")
+
+    while True:
+        choice = input("Select an option: ").strip()
+
+        if choice.isdigit():
+            choiceNum = int(choice)
+            if 1 <= choiceNum <= len(options):
+                return choiceNum
+            else:
+                print("Please select a valid number.")
+
+
 def addToInventory(item : str):
     inventory.append(item)
 
 def saveValue(statName : str, statValue):
     savefile[statName] = statValue
-    print(str(savefile))
 
 def readValue(statName : str):
     statValue = savefile[statName]
     return statValue
 
 def save(slot : int):
-    saveFile = open(f"save{slot}", "wt")
-    data = str(savefile)
-    savefile.write(data)
+    savefile["inventory"] = inventory
+    savefile["characters"] = characters
+    with open(f"save{slot}.json", "w") as savedState:
+        json.dump(savefile, savedState, indent=4)
 
 def load(slot):
-    saveFile = open(f"save{slot}", "r")
-    data = saveFile.read()
-    savefile = ast.literal_eval(data)
+    global savefile, inventory, characters
+    with open(f"save{slot}.json", "r") as loadedState:
+            savefile = json.load(loadedState)
+            inventory = savefile.get("inventory", [])
+            characters = savefile.get("characters", [])
+
 
